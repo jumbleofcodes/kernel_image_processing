@@ -1,7 +1,7 @@
 #include "ImageHandler.h"
 
-ImageHandler::ImageHandler(std::string nomefile) {
-    this->nome = nomefile;
+ImageHandler::ImageHandler(std::string filename) {
+    this->name = filename;
 }
 
 ImageHandler::~ImageHandler() {
@@ -13,31 +13,28 @@ bool ImageHandler::readFile() {
     this->header = new HeaderHandler();
 
     std::ifstream ifs;
-    bool lettura = this->header->readHeader(&ifs, this->nome);
-    if (!lettura) {
-        std::cout << "Errore nella lettura dell'header" << std::endl;
-        std::cout << "HeaderHandler.cpp riga 46" << std::endl;
+    bool reader = this->header->readHeader(&ifs, this->name);
+    if (!reader) {
+        std::cout << "An error occured while reading the header!" << std::endl;
         return false;
     }
 
-    this->header->stampa();
+    this->header->print();
     std::string tipo = this->header->getHeader()->getMagicNumber();
 
     if (tipo == "P3" || tipo == "P6") {
         this->imgData = new PPMHandler(this->header->getHeader());
-        bool lettura_dati = this->imgData->readData(&ifs);
-        if (!lettura_dati) {
-            std::cout << "Errore nella lettura dei dati" << std::endl;
-            std::cout << "PPMHandler.cpp riga 44" << std::endl;
+        bool file_reader = this->imgData->readData(&ifs);
+        if (!file_reader) {
+            std::cout << "An error occured! File_data not read!" << std::endl;
             return false;
         }
 
     } else if (tipo == "P2" || tipo == "P5") {
         this->imgData = new PGMHandler(this->header->getHeader());
-        bool lettura_dati = this->imgData->readData(&ifs);
-        if (!lettura_dati) {
-            std::cout << "Errore nella lettura dei dati" << std::endl;
-            std::cout << "PGMHandler.cpp riga 39" << std::endl;
+        bool data_reader = this->imgData->readData(&ifs);
+        if (!data_reader) {
+            std::cout << "An error occured! File_data not read!" << std::endl;
             return false;
         }
     }
@@ -50,7 +47,7 @@ void ImageHandler::applyFilter(int i) {
 
 void ImageHandler::saveFile() {
     std::ofstream ofs;
-    this->header->saveHeader(&ofs, this->nome);
+    this->header->saveHeader(&ofs, this->name);
     this->imgData->saveData(&ofs);
     ofs.close();
 }

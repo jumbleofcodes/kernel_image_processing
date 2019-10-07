@@ -14,7 +14,7 @@ Header::Header(Header *h) {
     this->color = h->getColor();
 }
 
-void Header::stampa() {
+void Header::print() {
     std::cout << "Magic number: " << this->magicNumber << std::endl;
     // for (auto itr = this->commenti.begin(); itr < this->commenti.end(); itr++) {
     //     std::cout << (*itr) << std::endl;

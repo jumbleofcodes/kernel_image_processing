@@ -9,7 +9,6 @@
 
 class KernelImageProcessing {
 public:
-    explicit KernelImageProcessing(Header* head, int codice);
 
     //filters matrices
     double k_emboss[3][3] = {{-2,-1,0},
@@ -31,12 +30,13 @@ public:
                                {0,1,0},
                                {0,0,0}};
 
+    explicit KernelImageProcessing(Header* head, int codice);
     std::vector<PixelGray> convolution_process(ImageTemplate<PixelGray>* img);
     std::vector<PixelRGB> convolution_process(ImageTemplate<PixelRGB>* img);
 
 private:
     double kernel[3][3];
-    double denominatore;
+    double denominator;
     Header* h;
 };
 

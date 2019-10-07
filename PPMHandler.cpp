@@ -2,12 +2,12 @@
 
 PPMHandler::~PPMHandler() {
     delete this->header;
-    delete this->immagine;
+    delete this->image;
 }
 
 PPMHandler::PPMHandler(Header* h) {
     this->header = new Header(h);
-    this->immagine = new ImageTemplate<PixelRGB>;
+    this->image = new ImageTemplate<PixelRGB>;
 }
 
 bool PPMHandler::readData(std::ifstream *ifs) {
@@ -16,7 +16,7 @@ bool PPMHandler::readData(std::ifstream *ifs) {
     if (this->header->getMagicNumber() == "P3") { // P3 è ASCII PPM
         int rr, gg, bb;
         while ((*ifs) >> rr >> gg >> bb) {
-            this->immagine->addPixel(PixelRGB(rr, gg, bb));
+            this->image->addPixel(PixelRGB(rr, gg, bb));
         }
         (*ifs).close();
         return true;
@@ -30,7 +30,7 @@ bool PPMHandler::readData(std::ifstream *ifs) {
             gg = c;
             (*ifs).read(&c, 1);
             bb = c;
-            this->immagine->addPixel(PixelRGB(rr, gg, bb));
+            this->image->addPixel(PixelRGB(rr, gg, bb));
         }
         (*ifs).close();
         return true;
@@ -45,20 +45,20 @@ void PPMHandler::saveData(std::ofstream *ofs) {
     if (this->header->getMagicNumber() == "P3") { // P3 è ASCII PPM
         // output dei pixel: PER IMMAGINI ASCII SERVONO DATI DI TIPO INT E SPAZIO TRA DATI
 
-        for (auto itr = this->immagine->getImageData().begin(); itr != this->immagine->getImageData().end(); itr++) {
+        for (auto itr = this->image->getImageData().begin(); itr != this->image->getImageData().end(); itr++) {
             (*ofs) << (int)(*itr).getR() << " " << (int)(*itr).getG() << " " << (int)(*itr).getB() << std::endl;
         }
     }
     else if (this->header->getMagicNumber() == "P6") { // P6 è PPM binario
         // output dei pixel: PER IMMAGINI CON CODIFCA BINARIA SERVONO DATI DI TIPO UNSIGNED CHAR
 
-        for (auto itr = this->immagine->getImageData().begin(); itr != this->immagine->getImageData().end(); itr++) {
+        for (auto itr = this->image->getImageData().begin(); itr != this->image->getImageData().end(); itr++) {
             (*ofs) << (*itr).getR() << (*itr).getG() << (*itr).getB();
         }
     }
 }
 
-void PPMHandler::applyFilter(int codice) {
-    auto filtri = new KernelImageProcessing(this->header, codice);
-    this->immagine->setImageData(filtri->convolution_process(this->immagine));
+void PPMHandler::applyFilter(int code) {
+    auto filtri = new KernelImageProcessing(this->header, code);
+    this->image->setImageData(filtri->convolution_process(this->image));
 }

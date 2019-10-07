@@ -20,7 +20,7 @@ public:
 
 private:
     Header* header;
-    ImageTemplate<PixelGray>* immagine;
+    ImageTemplate<PixelGray>* image;
 };
 
 

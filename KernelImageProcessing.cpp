@@ -12,7 +12,7 @@ KernelImageProcessing::KernelImageProcessing(Header *head, int codice) {
                     this->kernel[i][j] = k_emboss[i][j];
                 }
             }
-            this->denominatore = 1;
+            this->denominator = 1;
             break;
 
         case 2: // sharpen
@@ -21,7 +21,7 @@ KernelImageProcessing::KernelImageProcessing(Header *head, int codice) {
                     this->kernel[i][j] = k_sharpen[i][j];
                 }
             }
-            this->denominatore = 1;
+            this->denominator = 1;
             break;
 
         case 3: // outline
@@ -30,7 +30,7 @@ KernelImageProcessing::KernelImageProcessing(Header *head, int codice) {
                     this->kernel[i][j] = k_outline[i][j];
                 }
             }
-            this->denominatore = 1;
+            this->denominator = 1;
             break;
 
         case 4: // box blur
@@ -39,7 +39,7 @@ KernelImageProcessing::KernelImageProcessing(Header *head, int codice) {
                     this->kernel[i][j] = k_box_blur[i][j];
                 }
             }
-            this->denominatore = 9;
+            this->denominator = 9;
             break;
 
         case 5: // gaussian blur
@@ -48,7 +48,7 @@ KernelImageProcessing::KernelImageProcessing(Header *head, int codice) {
                     this->kernel[i][j] = k_gaussian_blur[i][j];
                 }
             }
-            this->denominatore = 16;
+            this->denominator = 16;
             break;
 
         default: // identity (nessuna operazione)
@@ -57,13 +57,13 @@ KernelImageProcessing::KernelImageProcessing(Header *head, int codice) {
                     this->kernel[i][j] = k_identity[i][j];
                 }
             }
-            this->denominatore = 1;
+            this->denominator = 1;
             break;
     }
 }
 
 std::vector<PixelGray> KernelImageProcessing::convolution_process(ImageTemplate<PixelGray>* img) {
-    std::vector<PixelGray> img_processata;
+    std::vector<PixelGray> img_processed;
 
     for (int i = 0; i < this->h->getHeight(); i++) {
         for (int j = 0; j < this->h->getWidth(); j++) {
@@ -71,7 +71,7 @@ std::vector<PixelGray> KernelImageProcessing::convolution_process(ImageTemplate<
             if (j != 0 && j != this->h->getWidth() - 1 && i != 0 && i != this->h->getHeight() - 1) {
                 for (int k = 0; k < 3; k++) {
                     for (int l = 0; l < 3; l++) {
-                        sum += img->getImageData()[(i + k - 1) * this->h->getWidth() + j + l - 1].getG() * (this->kernel[k][l] / this->denominatore);
+                        sum += img->getImageData()[(i + k - 1) * this->h->getWidth() + j + l - 1].getG() * (this->kernel[k][l] / this->denominator);
                     }
                 }
             }
@@ -81,14 +81,14 @@ std::vector<PixelGray> KernelImageProcessing::convolution_process(ImageTemplate<
                 sum = this->h->getColor();
             }
             PixelGray p = PixelGray((int)(sum));
-            img_processata.push_back(p);
+            img_processed.push_back(p);
         }
     }
-    return img_processata;
+    return img_processed;
 }
 
 std::vector<PixelRGB> KernelImageProcessing::convolution_process(ImageTemplate<PixelRGB>* img) {
-    std::vector<PixelRGB> img_processata;
+    std::vector<PixelRGB> img_processed;
 
     for (int i = 0; i < this->h->getHeight(); i++) {
         for (int j = 0; j < this->h->getWidth(); j++) {
@@ -98,9 +98,9 @@ std::vector<PixelRGB> KernelImageProcessing::convolution_process(ImageTemplate<P
             if (j != 0 && j != this->h->getWidth() - 1 && i != 0 && i != this->h->getHeight() - 1) {
                 for (int k = 0; k < 3; k++) {
                     for (int l = 0; l < 3; l++) {
-                        r_sum += img->getImageData()[(i + k - 1) * this->h->getWidth() + j + l - 1].getR() * (this->kernel[k][l] / this->denominatore);
-                        g_sum += img->getImageData()[(i + k - 1) * this->h->getWidth() + j + l - 1].getG() * (this->kernel[k][l] / this->denominatore);
-                        b_sum += img->getImageData()[(i + k - 1) * this->h->getWidth() + j + l - 1].getB() * (this->kernel[k][l] / this->denominatore);
+                        r_sum += img->getImageData()[(i + k - 1) * this->h->getWidth() + j + l - 1].getR() * (this->kernel[k][l] / this->denominator);
+                        g_sum += img->getImageData()[(i + k - 1) * this->h->getWidth() + j + l - 1].getG() * (this->kernel[k][l] / this->denominator);
+                        b_sum += img->getImageData()[(i + k - 1) * this->h->getWidth() + j + l - 1].getB() * (this->kernel[k][l] / this->denominator);
                     }
                 }
             }
@@ -120,8 +120,8 @@ std::vector<PixelRGB> KernelImageProcessing::convolution_process(ImageTemplate<P
                 b_sum = this->h->getColor();
             }
             PixelRGB p = PixelRGB((int)r_sum, (int)g_sum, (int)b_sum);
-            img_processata.push_back(p);
+            img_processed.push_back(p);
         }
     }
-    return img_processata;
+    return img_processed;
 }

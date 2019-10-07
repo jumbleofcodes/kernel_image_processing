@@ -16,7 +16,7 @@ public:
 
     Header *getHeader() const;
 
-    void stampa();
+    void print();
 
 private:
     Header* header;

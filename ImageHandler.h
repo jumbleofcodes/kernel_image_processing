@@ -11,14 +11,14 @@
 
 class ImageHandler {
 public:
-    explicit ImageHandler(std::string nomefile);
+    explicit ImageHandler(std::string filename);
     ~ImageHandler();
     bool readFile();
     void applyFilter(int i);
     void saveFile();
 
 private:
-    std::string nome;
+    std::string name;
     HeaderHandler* header;
     DataHandler* imgData;
 };

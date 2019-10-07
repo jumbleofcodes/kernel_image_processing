@@ -2,12 +2,12 @@
 
 PGMHandler::~PGMHandler() {
     delete this->header;
-    delete this->immagine;
+    delete this->image;
 }
 
 PGMHandler::PGMHandler(Header* h) {
     this->header = new Header(h);
-    this->immagine = new ImageTemplate<PixelGray>;
+    this->image = new ImageTemplate<PixelGray>;
 }
 
 bool PGMHandler::readData(std::ifstream *ifs) {
@@ -16,7 +16,7 @@ bool PGMHandler::readData(std::ifstream *ifs) {
     if (this->header->getMagicNumber() == "P2") { // P2 è ASCII PGM
         int gg;
         while ((*ifs) >> gg) {
-            this->immagine->addPixel(PixelGray(gg));
+            this->image->addPixel(PixelGray(gg));
         }
         (*ifs).close();
         return true;
@@ -25,7 +25,7 @@ bool PGMHandler::readData(std::ifstream *ifs) {
         for (int i = 0; i < (this->header->getWidth() * this->header->getHeight()); i++) {
             (*ifs).read(&c, 1);
             gg = c;
-            this->immagine->addPixel(PixelGray(gg));
+            this->image->addPixel(PixelGray(gg));
         }
         (*ifs).close();
         return true;
@@ -39,13 +39,13 @@ bool PGMHandler::readData(std::ifstream *ifs) {
 void PGMHandler::saveData(std::ofstream *ofs) {
     if (this->header->getMagicNumber() == "P2") { // P2 è ASCII PGM
 
-        for (auto itr = this->immagine->getImageData().begin(); itr != this->immagine->getImageData().end(); itr++) {
+        for (auto itr = this->image->getImageData().begin(); itr != this->image->getImageData().end(); itr++) {
             (*ofs) << (int)(*itr).getG() << std::endl;
         }
     }
     else if (this->header->getMagicNumber() == "P5") { // P5 è PGM binario
 
-        for (auto itr = this->immagine->getImageData().begin(); itr != this->immagine->getImageData().end(); itr++) {
+        for (auto itr = this->image->getImageData().begin(); itr != this->image->getImageData().end(); itr++) {
             (*ofs) << (*itr).getG();
         }
     }
@@ -53,5 +53,5 @@ void PGMHandler::saveData(std::ofstream *ofs) {
 
 void PGMHandler::applyFilter(int codice) {
     auto filtri = new KernelImageProcessing(this->header, codice);
-    this->immagine->setImageData(filtri->convolution_process(this->immagine));
+    this->image->setImageData(filtri->convolution_process(this->image));
 }

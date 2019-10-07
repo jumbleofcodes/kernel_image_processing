@@ -14,7 +14,7 @@ class Header {
 public:
     Header(std::string mn, int w, int h, int c);
     explicit Header(Header* h);
-    void stampa();
+    void print();
 
     // void addComment(std::string comm);
     // std::string getComment(int index);

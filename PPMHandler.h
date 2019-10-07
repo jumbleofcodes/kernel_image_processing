@@ -16,11 +16,11 @@ public:
     void saveData(std::ofstream* ofs) override;
     ~PPMHandler() override;
 
-    void applyFilter(int codice) override;
+    void applyFilter(int code) override;
 
 private:
     Header* header;
-    ImageTemplate<PixelRGB>* immagine;
+    ImageTemplate<PixelRGB>* image;
 };
 
 

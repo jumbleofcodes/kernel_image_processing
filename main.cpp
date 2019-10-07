@@ -4,7 +4,7 @@
 #include <iostream>
 
 int main() {
-    std::cout << "We welcome you to: bring me the forks!" << std::endl;
+    //std::cout << "We welcome you to: bring me the forks!" << std::endl;
 
     ImageHandler* imagehandler;
     std::string nomefile;
@@ -12,7 +12,7 @@ int main() {
     std::string salvataggio;
     int filtro;
 
-    std::cout << "Inserisci il nome del file con estensione: " << std::endl;
+    std::cout << "Insert name of the file with extension: " << std::endl;
     std::cin >> nomefile;
 
     for (int i = 0; i < 4; i++) {
@@ -20,7 +20,7 @@ int main() {
     }
 
     if (tipo != ".ppm" && tipo != ".pgm") {
-        std::cout << "Inserisci il tipo di immagine (ppm/pgm): " << std::endl;
+        std::cout << "Insert image type (ppm/pgm): " << std::endl;
         std::cin >> tipo;
         nomefile.append(".");
         nomefile.append(tipo);
@@ -35,7 +35,7 @@ int main() {
                                                 "4 - Box Blur",
                                                 "5 - Gaussian Blur"};
 
-        std::cout << "Inserisci il codice del filtro che si desidera utilizzare:" << std::endl;
+        std::cout << "Insert the code of the filter you want to apply:" << std::endl;
         for (int i = 0; i < listaFiltri.size(); i++) {
             std::cout << listaFiltri[i] << std::endl;
         }
@@ -43,17 +43,17 @@ int main() {
 
         if (filtro > 0 && filtro < listaFiltri.size() + 1) {
             imagehandler->applyFilter(filtro);
-            std::cout << "Salvare le modifiche apportate? (SI/NO)" << std::endl;
+            std::cout << "Do you want to save the new filtered image? (YES/NO)" << std::endl;
             std::cin >> salvataggio;
-            if ((salvataggio == "SI") || (salvataggio == "si") || (salvataggio == "Si")) {
-                std::cout << "Salvataggio in corso..." << std::endl;
+            if ((salvataggio == "YES") || (salvataggio == "yes") || (salvataggio == "Yes")) {
+                std::cout << "Saving..." << std::endl;
                 imagehandler->saveFile();
             }
         } else {
-            std::cout << "Filtro selezionato non disponibile al momento" << std::endl;
+            std::cout << "Invalid filter code" << std::endl;
         }
     }
-    std::cout << "Operazione conclusa" << std::endl;
+    std::cout << "Operation concluded!" << std::endl;
 
     delete imagehandler;
     return 0;

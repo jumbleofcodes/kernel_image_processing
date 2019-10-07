@@ -15,19 +15,19 @@ bool HeaderHandler::readHeader(std::ifstream *ifs, std::string n) {
         int i = 0;
         int j;
         std::string mn, line;
-        char spia;
+        char spy;
         (*ifs) >> mn;
         this->header->setMagicNumber(mn);
 
         while ((this->header->getColor() == 0) && (i < 3)) {
-            (*ifs) >> spia;
-            if (spia == '#') {
+            (*ifs) >> spy;
+            if (spy == '#') {
                 // se c'è il carattere '#' salta la riga
                 std::getline((*ifs), line);
                 // this->header->addComment(line);
-                std::cout << "Commento: " << spia << line << std::endl;
+                std::cout << "Comment: " << spy << line << std::endl;
             } else {
-                (*ifs).putback(spia);
+                (*ifs).putback(spy);
                 (*ifs) >> j;
                 if(i == 0) {
                     this->header->setWidth(j);
@@ -50,7 +50,7 @@ void HeaderHandler::saveHeader(std::ofstream *ofs, std::string n) {
     } else if (this->header->getMagicNumber() == "P5" || this->header->getMagicNumber() == "P6") {
         (*ofs).open(n, std::ios::binary);
     } else {
-        std::cout << "Salvataggio fallito, file perso" << std::endl;
+        std::cout << "Not saved, lost file!" << std::endl;
         return;
     }
     (*ofs) << this->header->getMagicNumber() << std::endl;
@@ -67,6 +67,6 @@ Header *HeaderHandler::getHeader() const {
 }
 
 
-void HeaderHandler::stampa() {
-    this->header->stampa();
+void HeaderHandler::print() {
+    this->header->print();
 }
