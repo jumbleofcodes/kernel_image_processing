@@ -1,7 +1,8 @@
 #include "PixelGray.h"
 
 PixelGray::PixelGray(char gg) {
-    this->g = (unsigned char)gg;
+    int ggg = (256 + (int)gg) % 256;
+    this->g = (unsigned char)ggg;
 }
 
 PixelGray::PixelGray(int gg) {
