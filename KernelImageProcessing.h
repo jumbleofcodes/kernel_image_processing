@@ -5,7 +5,6 @@
 #include "ImageTemplate.h"
 #include "PixelRGB.h"
 #include "PixelGray.h"
-#include "Header.h"
 
 class KernelImageProcessing {
 public:
@@ -30,14 +29,14 @@ public:
                                {0,1,0},
                                {0,0,0}};
 
-    explicit KernelImageProcessing(Header* head, int codice);
+    explicit KernelImageProcessing(int filterCode, int w, int h, int c);
     std::vector<PixelGray> convolution_process(ImageTemplate<PixelGray>* img);
     std::vector<PixelRGB> convolution_process(ImageTemplate<PixelRGB>* img);
 
 private:
     double kernel[3][3];
     double denominator;
-    Header* h;
+    int width, height, color;
 };
 
 #endif //KERNEL_IMAGE_PROCESSING_KERNELIMAGEPROCESSING_H

@@ -13,7 +13,7 @@ public:
 
     void setImageData(const std::vector<T> &imageData) {
         this->imageData.clear();
-        ImageTemplate::imageData = imageData;
+        this->imageData = imageData;
     }
 
     void addPixel(T p) {
@@ -21,7 +21,7 @@ public:
     }
 
 private:
-    std::vector<T> imageData; // vettore di Pixel
+    std::vector<T> imageData;
 };
 
 #endif //KERNEL_IMAGE_PROCESSING_IMAGETEMPLATE_H

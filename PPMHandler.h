@@ -3,23 +3,26 @@
 
 
 #include "ImageTemplate.h"
-#include "KernelImageProcessing.h"
 #include "PixelRGB.h"
-#include "DataHandler.h"
-#include "Header.h"
+#include "KernelImageProcessing.h"
+#include "ImageHandler.h"
 #include <fstream>
+#include <string>
+#include <iostream>
 
-class PPMHandler: public DataHandler {
+class PPMHandler: public ImageHandler {
 public:
-    explicit PPMHandler(Header* h);
-    bool readData(std::ifstream* ifs) override;
-    void saveData(std::ofstream* ofs) override;
+    explicit PPMHandler(std::string fn);
+    bool readFile() override;
+    void saveFile() override;
     ~PPMHandler() override;
 
     void applyFilter(int code) override;
 
 private:
-    Header* header;
+    std::string fileName;
+    std::string magicNumber;
+    int width, height, color;
     ImageTemplate<PixelRGB>* image;
 };
 

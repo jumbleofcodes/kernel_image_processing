@@ -1,10 +1,12 @@
 #include "KernelImageProcessing.h"
 
 
-KernelImageProcessing::KernelImageProcessing(Header *head, int codice) {
-    this->h = head;
+KernelImageProcessing::KernelImageProcessing(int filterCode, int w, int h, int c) {
+    this->width = w;
+    this->height = h;
+    this->color = c;
 
-    switch (codice) {
+    switch (filterCode) {
 
         case 1: // emboss
             for (int i = 0; i < 3; i++) {
@@ -51,7 +53,7 @@ KernelImageProcessing::KernelImageProcessing(Header *head, int codice) {
             this->denominator = 16;
             break;
 
-        default: // identity (nessuna operazione)
+        default: // identity
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
                     this->kernel[i][j] = k_identity[i][j];
@@ -65,20 +67,20 @@ KernelImageProcessing::KernelImageProcessing(Header *head, int codice) {
 std::vector<PixelGray> KernelImageProcessing::convolution_process(ImageTemplate<PixelGray>* img) {
     std::vector<PixelGray> img_processed;
 
-    for (int i = 0; i < this->h->getHeight(); i++) {
-        for (int j = 0; j < this->h->getWidth(); j++) {
+    for (int i = 0; i < this->height; i++) {
+        for (int j = 0; j < this->width; j++) {
             double sum = 0;
-            if (j != 0 && j != this->h->getWidth() - 1 && i != 0 && i != this->h->getHeight() - 1) {
+            if (j != 0 && j != this->width - 1 && i != 0 && i != this->height - 1) {
                 for (int k = 0; k < 3; k++) {
                     for (int l = 0; l < 3; l++) {
-                        sum += img->getImageData()[(i + k - 1) * this->h->getWidth() + j + l - 1].getG() * (this->kernel[k][l] / this->denominator);
+                        sum += img->getImageData()[(i + k - 1) * this->width + j + l - 1].getG() * (this->kernel[k][l] / this->denominator);
                     }
                 }
             }
             if (sum < 0) {
                 sum = 0;
-            } else if (sum > this->h->getColor()) {
-                sum = this->h->getColor();
+            } else if (sum > this->color) {
+                sum = this->color;
             }
             PixelGray p = PixelGray((int)(sum));
             img_processed.push_back(p);
@@ -90,34 +92,34 @@ std::vector<PixelGray> KernelImageProcessing::convolution_process(ImageTemplate<
 std::vector<PixelRGB> KernelImageProcessing::convolution_process(ImageTemplate<PixelRGB>* img) {
     std::vector<PixelRGB> img_processed;
 
-    for (int i = 0; i < this->h->getHeight(); i++) {
-        for (int j = 0; j < this->h->getWidth(); j++) {
+    for (int i = 0; i < this->height; i++) {
+        for (int j = 0; j < this->width; j++) {
             double r_sum = 0;
             double g_sum = 0;
             double b_sum = 0;
-            if (j != 0 && j != this->h->getWidth() - 1 && i != 0 && i != this->h->getHeight() - 1) {
+            if (j != 0 && j != this->width - 1 && i != 0 && i != this->height - 1) {
                 for (int k = 0; k < 3; k++) {
                     for (int l = 0; l < 3; l++) {
-                        r_sum += img->getImageData()[(i + k - 1) * this->h->getWidth() + j + l - 1].getR() * (this->kernel[k][l] / this->denominator);
-                        g_sum += img->getImageData()[(i + k - 1) * this->h->getWidth() + j + l - 1].getG() * (this->kernel[k][l] / this->denominator);
-                        b_sum += img->getImageData()[(i + k - 1) * this->h->getWidth() + j + l - 1].getB() * (this->kernel[k][l] / this->denominator);
+                        r_sum += img->getImageData()[(i + k - 1) * this->width + j + l - 1].getR() * (this->kernel[k][l] / this->denominator);
+                        g_sum += img->getImageData()[(i + k - 1) * this->width + j + l - 1].getG() * (this->kernel[k][l] / this->denominator);
+                        b_sum += img->getImageData()[(i + k - 1) * this->width + j + l - 1].getB() * (this->kernel[k][l] / this->denominator);
                     }
                 }
             }
             if (r_sum < 0){
                 r_sum = 0;
-            } else if (r_sum > this->h->getColor()) {
-                r_sum = this->h->getColor();
+            } else if (r_sum > this->color) {
+                r_sum = this->color;
             }
             if (g_sum < 0){
                 g_sum = 0;
-            } else if (g_sum > this->h->getColor()) {
-                g_sum = this->h->getColor();
+            } else if (g_sum > this->color) {
+                g_sum = this->color;
             }
             if (b_sum < 0){
                 b_sum = 0;
-            } else if (b_sum > this->h->getColor()) {
-                b_sum = this->h->getColor();
+            } else if (b_sum > this->color) {
+                b_sum = this->color;
             }
             PixelRGB p = PixelRGB((int)r_sum, (int)g_sum, (int)b_sum);
             img_processed.push_back(p);

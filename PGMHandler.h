@@ -5,21 +5,24 @@
 #include "ImageTemplate.h"
 #include "PixelGray.h"
 #include "KernelImageProcessing.h"
-#include "DataHandler.h"
-#include "Header.h"
+#include "ImageHandler.h"
 #include <fstream>
+#include <string>
+#include <iostream>
 
-class PGMHandler: public DataHandler {
+class PGMHandler: public ImageHandler {
 public:
-    explicit PGMHandler(Header* h);
-    bool readData(std::ifstream* ifs) override;
-    void saveData(std::ofstream* ofs) override;
+    explicit PGMHandler(std::string fn);
+    bool readFile() override;
+    void saveFile() override;
     ~PGMHandler() override;
 
-    void applyFilter(int codice) override;
+    void applyFilter(int code) override;
 
 private:
-    Header* header;
+    std::string fileName;
+    std::string magicNumber;
+    int width, height, color;
     ImageTemplate<PixelGray>* image;
 };
 

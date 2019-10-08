@@ -1,57 +1,102 @@
 #include "PGMHandler.h"
 
 PGMHandler::~PGMHandler() {
-    delete this->header;
     delete this->image;
 }
 
-PGMHandler::PGMHandler(Header* h) {
-    this->header = new Header(h);
+PGMHandler::PGMHandler(std::string fn) {
+    this->fileName = fn;
+    this->magicNumber = "NN";
+    this->width = 0;
+    this->height = 0;
+    this->color = 0;
     this->image = new ImageTemplate<PixelGray>;
 }
 
-bool PGMHandler::readData(std::ifstream *ifs) {
-    (*ifs).ignore(256, '\n');
+bool PGMHandler::readFile() {
+    std::ifstream ifs;
+    ifs.open(this->fileName);
+    while (ifs.good()) {
+        // Read header data
+        int i = 0;
+        int j;
+        std::string line;
+        char p;
 
-    if (this->header->getMagicNumber() == "P2") { // P2 è ASCII PGM
-        int gg;
-        while ((*ifs) >> gg) {
-            this->image->addPixel(PixelGray(gg));
+        ifs >> this->magicNumber;
+
+        while (this->color == 0 && i < 3) {
+            ifs >> p;
+            if (p == '#') {
+                std::getline(ifs, line);
+            } else {
+                ifs.putback(p);
+                ifs >> j;
+                if(i == 0) {
+                    this->width = j;
+                } else if (i == 1) {
+                    this->height = j;
+                } else if (i == 2) {
+                    this->color = j;
+                }
+                i++;
+            }
         }
-        (*ifs).close();
-        return true;
-    } else if (this->header->getMagicNumber() == "P5") { // P5 è PGM binario
-        char c, gg;
-        for (int i = 0; i < (this->header->getWidth() * this->header->getHeight()); i++) {
-            (*ifs).read(&c, 1);
-            gg = c;
-            this->image->addPixel(PixelGray(gg));
+        // Read pixel data
+        ifs.ignore(256, '\n');
+
+        if(this->magicNumber == "P2") {
+            int gg;
+            while (ifs >> gg) {
+                this->image->addPixel(PixelGray(gg));
+            }
+            ifs.close();
+            return true;
+        } else if (this->magicNumber == "P5") {
+            char gg;
+            for (int k = 0; k < this->width * this->height; k++) {
+                ifs.read(&gg, 1);
+                this->image->addPixel(PixelGray(gg));
+            }
+            ifs.close();
+            return true;
+        } else {
+            std::cerr << "Error! Cannot read file!" << std::endl;
         }
-        (*ifs).close();
-        return true;
     }
-    else {
-        (*ifs).close();
-        return false;
+    return false;
+}
+
+void PGMHandler::saveFile() {
+    std::ofstream ofs;
+
+    if (this->magicNumber == "P2") {
+        ofs.open(this->fileName, std::ofstream::out);
+
+        ofs << this->magicNumber << std::endl;
+        ofs << this->width << " " << this->height << std::endl;
+        ofs << this->color << std::endl;
+
+        for (auto itr : this->image->getImageData()) {
+            ofs << (int)itr.getG() << std::endl;
+        }
+    }
+    else if (this->magicNumber == "P5") {
+        ofs.open(this->fileName, std::ios::binary);
+
+        ofs << this->magicNumber << std::endl;
+        ofs << this->width << " " << this->height << std::endl;
+        ofs << this->color << std::endl;
+
+        for (auto itr : this->image->getImageData()) {
+            ofs << itr.getG();
+        }
+    } else {
+        std::cerr << "Error! Cannot save file!" << std::endl;
     }
 }
 
-void PGMHandler::saveData(std::ofstream *ofs) {
-    if (this->header->getMagicNumber() == "P2") { // P2 è ASCII PGM
-
-        for (auto itr = this->image->getImageData().begin(); itr != this->image->getImageData().end(); itr++) {
-            (*ofs) << (int)(*itr).getG() << std::endl;
-        }
-    }
-    else if (this->header->getMagicNumber() == "P5") { // P5 è PGM binario
-
-        for (auto itr = this->image->getImageData().begin(); itr != this->image->getImageData().end(); itr++) {
-            (*ofs) << (*itr).getG();
-        }
-    }
-}
-
-void PGMHandler::applyFilter(int codice) {
-    auto filtri = new KernelImageProcessing(this->header, codice);
-    this->image->setImageData(filtri->convolution_process(this->image));
+void PGMHandler::applyFilter(int code) {
+    auto filter = new KernelImageProcessing(code, this->width, this->height, this->color);
+    this->image->setImageData(filter->convolution_process(this->image));
 }
