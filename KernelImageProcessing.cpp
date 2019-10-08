@@ -1,12 +1,14 @@
 #include "KernelImageProcessing.h"
 
 
-KernelImageProcessing::KernelImageProcessing(int filterCode, int w, int h, int c) {
+KernelImageProcessing::KernelImageProcessing(int w, int h, int c) {
     this->width = w;
     this->height = h;
     this->color = c;
+}
 
-    switch (filterCode) {
+void KernelImageProcessing::selectFilter(int fc) {
+    switch (fc) {
 
         case 1: // emboss
             for (int i = 0; i < 3; i++) {
@@ -64,7 +66,9 @@ KernelImageProcessing::KernelImageProcessing(int filterCode, int w, int h, int c
     }
 }
 
-std::vector<PixelGray> KernelImageProcessing::convolution_process(ImageTemplate<PixelGray>* img) {
+std::vector<PixelGray> KernelImageProcessing::convolution_process(int filterCode, ImageTemplate<PixelGray>* img) {
+    this->selectFilter(filterCode);
+
     std::vector<PixelGray> img_processed;
 
     for (int i = 0; i < this->height; i++) {
@@ -77,14 +81,16 @@ std::vector<PixelGray> KernelImageProcessing::convolution_process(ImageTemplate<
                     }
                 }
             }
-            PixelGray p = PixelGray((int)(sum));
+            PixelGray p = PixelGray((int)(sum), this->color);
             img_processed.push_back(p);
         }
     }
     return img_processed;
 }
 
-std::vector<PixelRGB> KernelImageProcessing::convolution_process(ImageTemplate<PixelRGB>* img) {
+std::vector<PixelRGB> KernelImageProcessing::convolution_process(int filterCode, ImageTemplate<PixelRGB>* img) {
+    this->selectFilter(filterCode);
+
     std::vector<PixelRGB> img_processed;
 
     for (int i = 0; i < this->height; i++) {
@@ -101,7 +107,7 @@ std::vector<PixelRGB> KernelImageProcessing::convolution_process(ImageTemplate<P
                     }
                 }
             }
-            PixelRGB p = PixelRGB((int)r_sum, (int)g_sum, (int)b_sum);
+            PixelRGB p = PixelRGB((int)r_sum, (int)g_sum, (int)b_sum, this->color);
             img_processed.push_back(p);
         }
     }

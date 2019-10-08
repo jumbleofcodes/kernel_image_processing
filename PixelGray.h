@@ -4,8 +4,8 @@
 
 class PixelGray {
 public:
-    explicit PixelGray(char gg);
-    explicit PixelGray(int gg);
+    explicit PixelGray(char gg, int maxValue);
+    explicit PixelGray(int gg, int maxValue);
 
     unsigned char getG() const;
 

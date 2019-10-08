@@ -29,9 +29,12 @@ public:
                                {0,1,0},
                                {0,0,0}};
 
-    explicit KernelImageProcessing(int filterCode, int w, int h, int c);
-    std::vector<PixelGray> convolution_process(ImageTemplate<PixelGray>* img);
-    std::vector<PixelRGB> convolution_process(ImageTemplate<PixelRGB>* img);
+    explicit KernelImageProcessing(int w, int h, int c);
+    std::vector<PixelGray> convolution_process(int filterCode, ImageTemplate<PixelGray>* img);
+    std::vector<PixelRGB> convolution_process(int filterCode, ImageTemplate<PixelRGB>* img);
+
+protected:
+    void selectFilter(int fc);
 
 private:
     double kernel[3][3];

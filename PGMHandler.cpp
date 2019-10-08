@@ -48,7 +48,7 @@ bool PGMHandler::readFile() {
         if(this->magicNumber == "P2") {
             int gg;
             while (ifs >> gg) {
-                this->image->addPixel(PixelGray(gg));
+                this->image->addPixel(PixelGray(gg, this->color));
             }
             ifs.close();
             return true;
@@ -56,7 +56,7 @@ bool PGMHandler::readFile() {
             char gg;
             for (int k = 0; k < this->width * this->height; k++) {
                 ifs.read(&gg, 1);
-                this->image->addPixel(PixelGray(gg));
+                this->image->addPixel(PixelGray(gg, this->color));
             }
             ifs.close();
             return true;
@@ -101,6 +101,6 @@ void PGMHandler::saveFile() {
 }
 
 void PGMHandler::applyFilter(int code) {
-    auto filter = KernelImageProcessing(code, this->width, this->height, this->color);
-    this->image->setImageData(filter.convolution_process(this->image));
+    auto filter = KernelImageProcessing(this->width, this->height, this->color);
+    this->image->setImageData(filter.convolution_process(code, this->image));
 }

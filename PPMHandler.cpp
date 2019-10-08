@@ -48,7 +48,7 @@ bool PPMHandler::readFile() {
         if (this->magicNumber == "P3") {
             int rr, gg, bb;
             while (ifs >> rr >> gg >> bb) {
-                this->image->addPixel(PixelRGB(rr, gg, bb));
+                this->image->addPixel(PixelRGB(rr, gg, bb, this->color));
             }
             ifs.close();
             return true;
@@ -62,7 +62,7 @@ bool PPMHandler::readFile() {
                 gg = c;
                 ifs.read(&c, 1);
                 bb = c;
-                this->image->addPixel(PixelRGB(rr, gg, bb));
+                this->image->addPixel(PixelRGB(rr, gg, bb, this->color));
             }
             ifs.close();
             return true;
@@ -108,6 +108,6 @@ void PPMHandler::saveFile() {
 }
 
 void PPMHandler::applyFilter(int code) {
-    auto filter = KernelImageProcessing(code, this->width, this->height, this->color);
-    this->image->setImageData(filter.convolution_process(this->image));
+    auto filter = KernelImageProcessing(this->width, this->height, this->color);
+    this->image->setImageData(filter.convolution_process(code, this->image));
 }
