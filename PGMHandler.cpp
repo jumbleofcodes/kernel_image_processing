@@ -32,7 +32,7 @@ bool PGMHandler::readFile() {
             } else {
                 ifs.putback(p);
                 ifs >> j;
-                if(i == 0) {
+                if (i == 0) {
                     this->width = j;
                 } else if (i == 1) {
                     this->height = j;
@@ -80,7 +80,9 @@ void PGMHandler::saveFile() {
         for (auto itr : this->image->getImageData()) {
             ofs << (int)itr.getG() << std::endl;
         }
+        ofs.close();
     }
+
     else if (this->magicNumber == "P5") {
         ofs.open(this->fileName, std::ios::binary);
 
@@ -91,12 +93,14 @@ void PGMHandler::saveFile() {
         for (auto itr : this->image->getImageData()) {
             ofs << itr.getG();
         }
+        ofs.close();
+
     } else {
         std::cerr << "Error! Cannot save file!" << std::endl;
     }
 }
 
 void PGMHandler::applyFilter(int code) {
-    auto filter = new KernelImageProcessing(code, this->width, this->height, this->color);
-    this->image->setImageData(filter->convolution_process(this->image));
+    auto filter = KernelImageProcessing(code, this->width, this->height, this->color);
+    this->image->setImageData(filter.convolution_process(this->image));
 }

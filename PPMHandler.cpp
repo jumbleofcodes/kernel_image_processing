@@ -76,12 +76,8 @@ bool PPMHandler::readFile() {
 
 void PPMHandler::saveFile() {
     std::ofstream ofs;
-    if (this->magicNumber != "P3" && this->magicNumber != "P6") {
-        std::cerr << "Error! Cannot save file!" << std::endl;
-        return;
-    }
 
-    else if (this->magicNumber == "P3") {
+    if (this->magicNumber == "P3") {
         ofs.open(this->fileName, std::ofstream::out);
 
         ofs << this->magicNumber << std::endl;
@@ -105,10 +101,13 @@ void PPMHandler::saveFile() {
             ofs << itr.getR() << itr.getG() << itr.getB();
         }
         ofs.close();
+
+    } else {
+        std::cerr << "Error! Cannot save file!" << std::endl;
     }
 }
 
 void PPMHandler::applyFilter(int code) {
-    auto filter = new KernelImageProcessing(code, this->width, this->height, this->color);
-    this->image->setImageData(filter->convolution_process(this->image));
+    auto filter = KernelImageProcessing(code, this->width, this->height, this->color);
+    this->image->setImageData(filter.convolution_process(this->image));
 }
