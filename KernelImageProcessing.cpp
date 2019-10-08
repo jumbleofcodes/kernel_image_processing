@@ -77,11 +77,6 @@ std::vector<PixelGray> KernelImageProcessing::convolution_process(ImageTemplate<
                     }
                 }
             }
-            if (sum < 0) {
-                sum = 0;
-            } else if (sum > this->color) {
-                sum = this->color;
-            }
             PixelGray p = PixelGray((int)(sum));
             img_processed.push_back(p);
         }
@@ -105,21 +100,6 @@ std::vector<PixelRGB> KernelImageProcessing::convolution_process(ImageTemplate<P
                         b_sum += img->getImageData()[(i + k - 1) * this->width + j + l - 1].getB() * (this->kernel[k][l] / this->denominator);
                     }
                 }
-            }
-            if (r_sum < 0){
-                r_sum = 0;
-            } else if (r_sum > this->color) {
-                r_sum = this->color;
-            }
-            if (g_sum < 0){
-                g_sum = 0;
-            } else if (g_sum > this->color) {
-                g_sum = this->color;
-            }
-            if (b_sum < 0){
-                b_sum = 0;
-            } else if (b_sum > this->color) {
-                b_sum = this->color;
             }
             PixelRGB p = PixelRGB((int)r_sum, (int)g_sum, (int)b_sum);
             img_processed.push_back(p);

@@ -7,8 +7,23 @@ PixelRGB::PixelRGB(char rr, char gg, char bb) {
 }
 
 PixelRGB::PixelRGB(int rr, int gg, int bb) {
+    if (rr < 0) {
+        rr = 0;
+    } else if (rr > 255) {
+        rr = 255;
+    }
     this->r = (unsigned char)rr;
+    if (gg < 0) {
+        gg = 0;
+    } else if (rr > 255) {
+        gg = 255;
+    }
     this->g = (unsigned char)gg;
+    if (bb < 0) {
+        bb = 0;
+    } else if (rr > 255) {
+        bb = 255;
+    }
     this->b = (unsigned char)bb;
 }
 
