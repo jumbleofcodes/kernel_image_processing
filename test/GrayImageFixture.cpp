@@ -5,9 +5,9 @@
 #include "gtest/gtest.h"
 #include "../KernelImageProcessing.h"
 
-class KernelProcessingSuite: public ::testing::Test {
+class GrayImageProcessingSuite: public ::testing::Test {
 protected:
-    KernelProcessingSuite() {
+    GrayImageProcessingSuite() {
         this->k = new KernelImageProcessing(3, 3, 256);
         this->grayImage = new ImageTemplate<PixelGray>;
     }
@@ -18,8 +18,7 @@ protected:
         }
     }
 
-    ~KernelProcessingSuite() override {
-        //void TearDown() override {
+    ~GrayImageProcessingSuite() override {
         delete this->k;
         delete this->grayImage;
     }
@@ -28,27 +27,27 @@ protected:
     ImageTemplate<PixelGray>* grayImage;
 };
 
-TEST_F(KernelProcessingSuite, GrayEmbossKernelTest) {
+TEST_F(GrayImageProcessingSuite, GrayEmbossKernelTest) {
     std::vector<PixelGray> img_processata = this->k->convolution_process(1, this->grayImage);
     ASSERT_EQ(29, (int)(img_processata[4].getG()));
 }
 
-TEST_F(KernelProcessingSuite, GraySharpenKernelTest) {
+TEST_F(GrayImageProcessingSuite, GraySharpenKernelTest) {
     std::vector<PixelGray> img_processata = this->k->convolution_process(2, this->grayImage);
     ASSERT_EQ(5, (int)(img_processata[4].getG()));
 }
 
-TEST_F(KernelProcessingSuite, GrayOutlineKernelTest) {
+TEST_F(GrayImageProcessingSuite, GrayOutlineKernelTest) {
     std::vector<PixelGray> img_processata = this->k->convolution_process(3, this->grayImage);
     ASSERT_EQ(0, (int)(img_processata[4].getG()));
 }
 
-TEST_F(KernelProcessingSuite, GrayBoxBlurKernelTest) {
+TEST_F(GrayImageProcessingSuite, GrayBoxBlurKernelTest) {
     std::vector<PixelGray> img_processata = this->k->convolution_process(4, this->grayImage);
     ASSERT_EQ(5, (int)(img_processata[4].getG()));
 }
 
-TEST_F(KernelProcessingSuite, GrayGaussBlurKernelTest) {
+TEST_F(GrayImageProcessingSuite, GrayGaussBlurKernelTest) {
     std::vector<PixelGray> img_processata = this->k->convolution_process(5, this->grayImage);
     ASSERT_EQ(5, (int)(img_processata[4].getG()));
 }
