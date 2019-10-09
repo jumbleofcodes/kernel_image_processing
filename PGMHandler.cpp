@@ -48,7 +48,7 @@ bool PGMHandler::readFile() {
         if(this->magicNumber == "P2") {
             int gg;
             while (ifs >> gg) {
-                this->image->addPixel(PixelGray(gg, this->color));
+                this->image->addPixel(PixelGray(gg));
             }
             ifs.close();
             return true;
@@ -56,7 +56,7 @@ bool PGMHandler::readFile() {
             char gg;
             for (int k = 0; k < this->width * this->height; k++) {
                 ifs.read(&gg, 1);
-                this->image->addPixel(PixelGray(gg, this->color));
+                this->image->addPixel(PixelGray(gg));
             }
             ifs.close();
             return true;

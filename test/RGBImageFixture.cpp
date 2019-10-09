@@ -14,7 +14,7 @@ protected:
 
     void SetUp() override {
         for (int i = 0; i < 9; i++) {
-            this->colorImage->addPixel(PixelRGB(i - 1, i, i + 1, 256));
+            this->colorImage->addPixel(PixelRGB(i - 1, i, i + 1));
         }
     }
 

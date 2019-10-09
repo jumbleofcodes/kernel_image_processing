@@ -4,8 +4,8 @@
 
 class PixelRGB {
 public:
-    PixelRGB(char rr, char gg, char bb, int maxValue);
-    PixelRGB(int rr, int gg, int bb, int maxValue);
+    PixelRGB(char rr, char gg, char bb);
+    PixelRGB(int rr, int gg, int bb);
 
     unsigned char getR() const;
 

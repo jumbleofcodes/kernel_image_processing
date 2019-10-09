@@ -14,7 +14,7 @@ protected:
 
     void SetUp() override {
         for (int i = 0; i < 9; i++) {
-            this->grayImage->addPixel(PixelGray(i + 1, 256));
+            this->grayImage->addPixel(PixelGray(i + 1));
         }
     }
 

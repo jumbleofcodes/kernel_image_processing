@@ -81,7 +81,7 @@ std::vector<PixelGray> KernelImageProcessing::convolution_process(int filterCode
                     }
                 }
             }
-            PixelGray p = PixelGray((int)(sum), this->color);
+            PixelGray p = PixelGray((int)(sum));
             img_processed.push_back(p);
         }
     }
@@ -107,7 +107,7 @@ std::vector<PixelRGB> KernelImageProcessing::convolution_process(int filterCode,
                     }
                 }
             }
-            PixelRGB p = PixelRGB((int)r_sum, (int)g_sum, (int)b_sum, this->color);
+            PixelRGB p = PixelRGB((int)r_sum, (int)g_sum, (int)b_sum);
             img_processed.push_back(p);
         }
     }
