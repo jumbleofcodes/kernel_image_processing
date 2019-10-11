@@ -11,9 +11,9 @@ public:
         return imageData;
     }
 
-    void setImageData(const std::vector<T> &imageData) {
+    void setImageData(const std::vector<T> &newImgData) {
         this->imageData.clear();
-        this->imageData = imageData;
+        this->imageData = newImgData;
     }
 
     void addPixel(T p) {
