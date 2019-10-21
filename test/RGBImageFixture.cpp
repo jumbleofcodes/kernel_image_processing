@@ -112,3 +112,47 @@ TEST_F(RGBImageProcessingSuite, ColorEmbossKernelTest) {
     ASSERT_EQ(255, (int)(img_processata[14].getG()));
     ASSERT_EQ(0, (int)(img_processata[14].getB()));
 }
+
+TEST_F(RGBImageProcessingSuite, ColorSharpenKernelTest) {
+    std::vector<PixelRGB> img_processata = this->k->convolution_process(2, this->colorImage);
+    ASSERT_EQ(255, (int)(img_processata[12].getR()));
+    ASSERT_EQ(255, (int)(img_processata[12].getG()));
+    ASSERT_EQ(255, (int)(img_processata[12].getB()));
+
+    ASSERT_EQ(255, (int)(img_processata[14].getR()));
+    ASSERT_EQ(255, (int)(img_processata[14].getG()));
+    ASSERT_EQ(255, (int)(img_processata[14].getB()));
+}
+
+TEST_F(RGBImageProcessingSuite, ColorOutlineKernelTest) {
+    std::vector<PixelRGB> img_processata = this->k->convolution_process(3, this->colorImage);
+    ASSERT_EQ(255, (int)(img_processata[12].getR()));
+    ASSERT_EQ(255, (int)(img_processata[12].getG()));
+    ASSERT_EQ(0, (int)(img_processata[12].getB()));
+
+    ASSERT_EQ(255, (int)(img_processata[14].getR()));
+    ASSERT_EQ(255, (int)(img_processata[14].getG()));
+    ASSERT_EQ(255, (int)(img_processata[14].getB()));
+}
+
+TEST_F(RGBImageProcessingSuite, ColorBoxBlurKernelTest) {
+    std::vector<PixelRGB> img_processata = this->k->convolution_process(4, this->colorImage);
+    ASSERT_EQ(56, (int)(img_processata[12].getR()));
+    ASSERT_EQ(150, (int)(img_processata[12].getG()));
+    ASSERT_EQ(255, (int)(img_processata[12].getB()));
+
+    ASSERT_EQ(124, (int)(img_processata[14].getR()));
+    ASSERT_EQ(210, (int)(img_processata[14].getG()));
+    ASSERT_EQ(170, (int)(img_processata[14].getB()));
+}
+
+TEST_F(RGBImageProcessingSuite, ColorGaussianBlurKernelTest) {
+    std::vector<PixelRGB> img_processata = this->k->convolution_process(5, this->colorImage);
+    ASSERT_EQ(95, (int)(img_processata[12].getR()));
+    ASSERT_EQ(170, (int)(img_processata[12].getG()));
+    ASSERT_EQ(255, (int)(img_processata[12].getB()));
+
+    ASSERT_EQ(157, (int)(img_processata[14].getR()));
+    ASSERT_EQ(221, (int)(img_processata[14].getG()));
+    ASSERT_EQ(191, (int)(img_processata[14].getB()));
+}
