@@ -1,12 +1,9 @@
 #include "PixelRGB.h"
 
 PixelRGB::PixelRGB(char rr, char gg, char bb) {
-    int rrr = (256 + (int)rr) % 256;
-    this->r = (unsigned char)rrr;
-    int ggg = (256 + (int)gg) % 256;
-    this->g = (unsigned char)ggg;
-    int bbb = (256 + (int)bb) % 256;
-    this->b = (unsigned char)bbb;
+    this->r = (unsigned char)rr;
+    this->g = (unsigned char)gg;
+    this->b = (unsigned char)bb;
 }
 
 PixelRGB::PixelRGB(int rr, int gg, int bb) {
