@@ -81,6 +81,9 @@ std::vector<PixelGray> KernelImageProcessing::convolution_process(int filterCode
                     }
                 }
             }
+            if (sum > this->color) {
+                sum = this->color;
+            }
             PixelGray p = PixelGray((int)(sum));
             img_processed.push_back(p);
         }
@@ -106,6 +109,15 @@ std::vector<PixelRGB> KernelImageProcessing::convolution_process(int filterCode,
                         b_sum += img->getImageData()[(i + k - 1) * this->width + j + l - 1].getB() * (this->kernel[k][l] / this->denominator);
                     }
                 }
+            }
+            if (r_sum > this->color) {
+                r_sum = this->color;
+            }
+            if (g_sum > this->color) {
+                g_sum = this->color;
+            }
+            if (b_sum > this->color) {
+                b_sum = this->color;
             }
             PixelRGB p = PixelRGB((int)r_sum, (int)g_sum, (int)b_sum);
             img_processed.push_back(p);
