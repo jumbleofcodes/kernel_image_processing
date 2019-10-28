@@ -37,8 +37,8 @@ protected:
     void selectFilter(int fc);
 
 private:
-    double kernel[3][3];
-    double denominator;
+    double kernel[3][3]{};
+    double denominator{};
     int width, height, color;
 };
 

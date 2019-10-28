@@ -8,6 +8,7 @@ KernelImageProcessing::KernelImageProcessing(int w, int h, int c) {
 }
 
 void KernelImageProcessing::selectFilter(int fc) {
+    // TODO: usare enum class invece dello switch
     switch (fc) {
 
         case 1: // emboss
@@ -77,7 +78,7 @@ std::vector<PixelGray> KernelImageProcessing::convolution_process(int filterCode
             if (j != 0 && j != this->width - 1 && i != 0 && i != this->height - 1) {
                 for (int k = 0; k < 3; k++) {
                     for (int l = 0; l < 3; l++) {
-                        sum += img->getImageData()[(i + k - 1) * this->width + j + l - 1].getG() * (this->kernel[k][l] / this->denominator);
+                        sum += img->getPixel((i + k - 1) * this->width + j + l - 1).getG() * (this->kernel[k][l] / this->denominator);
                     }
                 }
             }
@@ -104,9 +105,9 @@ std::vector<PixelRGB> KernelImageProcessing::convolution_process(int filterCode,
             if (j != 0 && j != this->width - 1 && i != 0 && i != this->height - 1) {
                 for (int k = 0; k < 3; k++) {
                     for (int l = 0; l < 3; l++) {
-                        r_sum += img->getImageData()[(i + k - 1) * this->width + j + l - 1].getR() * (this->kernel[k][l] / this->denominator);
-                        g_sum += img->getImageData()[(i + k - 1) * this->width + j + l - 1].getG() * (this->kernel[k][l] / this->denominator);
-                        b_sum += img->getImageData()[(i + k - 1) * this->width + j + l - 1].getB() * (this->kernel[k][l] / this->denominator);
+                        r_sum += img->getPixel((i + k - 1) * this->width + j + l - 1).getR() * (this->kernel[k][l] / this->denominator);
+                        g_sum += img->getPixel((i + k - 1) * this->width + j + l - 1).getG() * (this->kernel[k][l] / this->denominator);
+                        b_sum += img->getPixel((i + k - 1) * this->width + j + l - 1).getB() * (this->kernel[k][l] / this->denominator);
                     }
                 }
             }

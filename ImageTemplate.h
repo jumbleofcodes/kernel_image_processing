@@ -20,6 +20,14 @@ public:
         this->imageData.push_back(p);
     }
 
+    T getPixel(int pos) {
+        return this->imageData[pos];
+    }
+
+    void setPixel(int pos, T p) {
+        this->imageData[pos] = p;
+    }
+
 private:
     std::vector<T> imageData;
 };
