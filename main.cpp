@@ -44,8 +44,31 @@ int main() {
         }
         std::cin >> filterCode;
 
-        if (filterCode > 0 && filterCode < filterList.size() + 1) {
-            imageHandler->applyFilter(filterCode);
+        Filtro f = Filtro::Identity;
+
+        switch (filterCode) {
+            case 1:
+                f = Filtro::Emboss;
+                break;
+            case 2:
+                f = Filtro ::Sharpen;
+                break;
+            case 3:
+                f = Filtro ::Outline;
+                break;
+            case 4:
+                f = Filtro::BoxBlur;
+                break;
+            case 5:
+                f = Filtro::GaussianBlur;
+                break;
+            default: // codice invalido
+                break;
+        }
+
+        // if (filterCode > 0 && filterCode < filterList.size() + 1) {
+        if (f != Filtro::Identity) {
+            imageHandler->applyFilter(f);
             std::cout << "Do you want to save the new filtered image? (YES/NO)" << std::endl;
             std::cin >> save;
             if ((save == "YES") || (save == "yes") || (save == "Yes") || (save == "y") || (save == "Y")) {

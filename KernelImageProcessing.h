@@ -6,6 +6,8 @@
 #include "PixelRGB.h"
 #include "PixelGray.h"
 
+enum class Filtro {Identity, Emboss, Sharpen, Outline, BoxBlur, GaussianBlur};
+
 class KernelImageProcessing {
 public:
 
@@ -29,11 +31,14 @@ public:
                                {0,1,0},
                                {0,0,0}};
 
-    std::vector<PixelGray> convolution_process(int filterCode, ImageTemplate<PixelGray>* img);
-    std::vector<PixelRGB> convolution_process(int filterCode, ImageTemplate<PixelRGB>* img);
+    // std::vector<PixelGray> convolution_process(int filterCode, ImageTemplate<PixelGray>* img);
+    // std::vector<PixelRGB> convolution_process(int filterCode, ImageTemplate<PixelRGB>* img);
+    std::vector<PixelGray> convolution_process(Filtro filterCode, ImageTemplate<PixelGray>* img);
+    std::vector<PixelRGB> convolution_process(Filtro filterCode, ImageTemplate<PixelRGB>* img);
 
 protected:
-    void selectFilter(int fc);
+    // void selectFilter(int fc);
+    void selectFilter(Filtro fc);
 
 private:
     double kernel[3][3]{};

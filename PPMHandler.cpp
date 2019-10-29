@@ -114,7 +114,7 @@ void PPMHandler::saveFile() {
     }
 }
 
-void PPMHandler::applyFilter(int code) {
+void PPMHandler::applyFilter(Filtro code) {
     auto filter = KernelImageProcessing();
     // auto filter = KernelImageProcessing(this->image->getWidth(), this->image->getHeight(), this->image->getColor());
     this->image->setImageData(filter.convolution_process(code, this->image));

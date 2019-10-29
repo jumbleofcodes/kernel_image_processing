@@ -29,26 +29,26 @@ protected:
 };
 
 TEST_F(GrayImageProcessingSuite, GrayEmbossKernelTest) {
-    std::vector<PixelGray> img_processata = this->k->convolution_process(1, this->grayImage);
+    std::vector<PixelGray> img_processata = this->k->convolution_process(Filtro ::Emboss, this->grayImage);
     ASSERT_EQ(29, (int)(img_processata[4].getG()));
 }
 
 TEST_F(GrayImageProcessingSuite, GraySharpenKernelTest) {
-    std::vector<PixelGray> img_processata = this->k->convolution_process(2, this->grayImage);
+    std::vector<PixelGray> img_processata = this->k->convolution_process(Filtro::Sharpen, this->grayImage);
     ASSERT_EQ(5, (int)(img_processata[4].getG()));
 }
 
 TEST_F(GrayImageProcessingSuite, GrayOutlineKernelTest) {
-    std::vector<PixelGray> img_processata = this->k->convolution_process(3, this->grayImage);
+    std::vector<PixelGray> img_processata = this->k->convolution_process(Filtro::Outline, this->grayImage);
     ASSERT_EQ(0, (int)(img_processata[4].getG()));
 }
 
 TEST_F(GrayImageProcessingSuite, GrayBoxBlurKernelTest) {
-    std::vector<PixelGray> img_processata = this->k->convolution_process(4, this->grayImage);
+    std::vector<PixelGray> img_processata = this->k->convolution_process(Filtro::BoxBlur, this->grayImage);
     ASSERT_EQ(5, (int)(img_processata[4].getG()));
 }
 
 TEST_F(GrayImageProcessingSuite, GrayGaussBlurKernelTest) {
-    std::vector<PixelGray> img_processata = this->k->convolution_process(5, this->grayImage);
+    std::vector<PixelGray> img_processata = this->k->convolution_process(Filtro::GaussianBlur, this->grayImage);
     ASSERT_EQ(5, (int)(img_processata[4].getG()));
 }

@@ -1,11 +1,10 @@
 #include "KernelImageProcessing.h"
 
 
-void KernelImageProcessing::selectFilter(int fc) {
-    // TODO: usare enum class
+void KernelImageProcessing::selectFilter(Filtro fc) {
     switch (fc) {
 
-        case 1: // emboss
+        case Filtro ::Emboss:
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
                     this->kernel[i][j] = k_emboss[i][j];
@@ -14,7 +13,7 @@ void KernelImageProcessing::selectFilter(int fc) {
             this->denominator = 1;
             break;
 
-        case 2: // sharpen
+        case Filtro::Sharpen:
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
                     this->kernel[i][j] = k_sharpen[i][j];
@@ -23,7 +22,7 @@ void KernelImageProcessing::selectFilter(int fc) {
             this->denominator = 1;
             break;
 
-        case 3: // outline
+        case Filtro::Outline:
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
                     this->kernel[i][j] = k_outline[i][j];
@@ -32,7 +31,7 @@ void KernelImageProcessing::selectFilter(int fc) {
             this->denominator = 1;
             break;
 
-        case 4: // box blur
+        case Filtro::BoxBlur:
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
                     this->kernel[i][j] = k_box_blur[i][j];
@@ -41,7 +40,7 @@ void KernelImageProcessing::selectFilter(int fc) {
             this->denominator = 9;
             break;
 
-        case 5: // gaussian blur
+        case Filtro ::GaussianBlur:
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
                     this->kernel[i][j] = k_gaussian_blur[i][j];
@@ -61,7 +60,7 @@ void KernelImageProcessing::selectFilter(int fc) {
     }
 }
 
-std::vector<PixelGray> KernelImageProcessing::convolution_process(int filterCode, ImageTemplate<PixelGray>* img) {
+std::vector<PixelGray> KernelImageProcessing::convolution_process(Filtro filterCode, ImageTemplate<PixelGray>* img) {
     this->selectFilter(filterCode);
 
     std::vector<PixelGray> img_processed;
@@ -86,7 +85,7 @@ std::vector<PixelGray> KernelImageProcessing::convolution_process(int filterCode
     return img_processed;
 }
 
-std::vector<PixelRGB> KernelImageProcessing::convolution_process(int filterCode, ImageTemplate<PixelRGB>* img) {
+std::vector<PixelRGB> KernelImageProcessing::convolution_process(Filtro filterCode, ImageTemplate<PixelRGB>* img) {
     this->selectFilter(filterCode);
 
     std::vector<PixelRGB> img_processed;

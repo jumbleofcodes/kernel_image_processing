@@ -107,7 +107,7 @@ void PGMHandler::saveFile() {
     }
 }
 
-void PGMHandler::applyFilter(int code) {
+void PGMHandler::applyFilter(Filtro code) {
     auto filter = KernelImageProcessing();
     // auto filter = KernelImageProcessing(this->image->getWidth(), this->image->getHeight(), this->image->getColor());
     this->image->setImageData(filter.convolution_process(code, this->image));

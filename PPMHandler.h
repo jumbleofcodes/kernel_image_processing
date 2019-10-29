@@ -17,7 +17,7 @@ public:
     void saveFile() override;
     ~PPMHandler() override;
 
-    void applyFilter(int code) override;
+    void applyFilter(Filtro code) override ;
 
 private:
     std::string fileName;
