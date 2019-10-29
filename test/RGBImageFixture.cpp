@@ -8,8 +8,9 @@
 class RGBImageProcessingSuite: public ::testing::Test {
 protected:
     RGBImageProcessingSuite() {
-        this->k = new KernelImageProcessing(11, 5, 256);
-        this->colorImage = new ImageTemplate<PixelRGB>;
+        // this->k = new KernelImageProcessing(11, 5, 256);
+        this->k = new KernelImageProcessing();
+        this->colorImage = new ImageTemplate<PixelRGB>("NN", 11, 3, 256);
     }
 
     void SetUp() override {

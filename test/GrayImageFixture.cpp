@@ -8,8 +8,9 @@
 class GrayImageProcessingSuite: public ::testing::Test {
 protected:
     GrayImageProcessingSuite() {
-        this->k = new KernelImageProcessing(3, 3, 256);
-        this->grayImage = new ImageTemplate<PixelGray>;
+        // this->k = new KernelImageProcessing(3, 3, 256);
+        this->k = new KernelImageProcessing();
+        this->grayImage = new ImageTemplate<PixelGray>("NN", 3, 3, 256);
     }
 
     void SetUp() override {

@@ -21,9 +21,9 @@ public:
 
 private:
     std::string fileName;
-    std::string magicNumber;
-    int width, height, color;
-    ImageTemplate<PixelRGB>* image;
+    // std::string magicNumber;
+    // int width, height, color;
+    ImageTemplate<PixelRGB>* image{};
 };
 
 

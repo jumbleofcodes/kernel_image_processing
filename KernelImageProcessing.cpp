@@ -1,14 +1,8 @@
 #include "KernelImageProcessing.h"
 
 
-KernelImageProcessing::KernelImageProcessing(int w, int h, int c) {
-    this->width = w;
-    this->height = h;
-    this->color = c;
-}
-
 void KernelImageProcessing::selectFilter(int fc) {
-    // TODO: usare enum class invece dello switch
+    // TODO: usare enum class
     switch (fc) {
 
         case 1: // emboss
@@ -72,18 +66,18 @@ std::vector<PixelGray> KernelImageProcessing::convolution_process(int filterCode
 
     std::vector<PixelGray> img_processed;
 
-    for (int i = 0; i < this->height; i++) {
-        for (int j = 0; j < this->width; j++) {
+    for (int i = 0; i < img->getHeight(); i++) {
+        for (int j = 0; j < img->getWidth(); j++) {
             double sum = 0;
-            if (j != 0 && j != this->width - 1 && i != 0 && i != this->height - 1) {
+            if (j != 0 && j != img->getWidth() - 1 && i != 0 && i != img->getHeight() - 1) {
                 for (int k = 0; k < 3; k++) {
                     for (int l = 0; l < 3; l++) {
-                        sum += img->getPixel((i + k - 1) * this->width + j + l - 1).getG() * (this->kernel[k][l] / this->denominator);
+                        sum += img->getPixel(i + k - 1, j + l - 1).getG() * (this->kernel[k][l] / this->denominator);
                     }
                 }
             }
-            if (sum > this->color) {
-                sum = this->color;
+            if (sum > img->getColor()) {
+                sum = img->getColor();
             }
             PixelGray p = PixelGray((int)(sum));
             img_processed.push_back(p);
@@ -97,28 +91,28 @@ std::vector<PixelRGB> KernelImageProcessing::convolution_process(int filterCode,
 
     std::vector<PixelRGB> img_processed;
 
-    for (int i = 0; i < this->height; i++) {
-        for (int j = 0; j < this->width; j++) {
+    for (int i = 0; i < img->getHeight(); i++) {
+        for (int j = 0; j < img->getWidth(); j++) {
             double r_sum = 0;
             double g_sum = 0;
             double b_sum = 0;
-            if (j != 0 && j != this->width - 1 && i != 0 && i != this->height - 1) {
+            if (j != 0 && j != img->getWidth() - 1 && i != 0 && i != img->getHeight() - 1) {
                 for (int k = 0; k < 3; k++) {
                     for (int l = 0; l < 3; l++) {
-                        r_sum += img->getPixel((i + k - 1) * this->width + j + l - 1).getR() * (this->kernel[k][l] / this->denominator);
-                        g_sum += img->getPixel((i + k - 1) * this->width + j + l - 1).getG() * (this->kernel[k][l] / this->denominator);
-                        b_sum += img->getPixel((i + k - 1) * this->width + j + l - 1).getB() * (this->kernel[k][l] / this->denominator);
+                        r_sum += img->getPixel(i + k - 1, j + l - 1).getR() * (this->kernel[k][l] / this->denominator);
+                        g_sum += img->getPixel(i + k - 1, j + l - 1).getG() * (this->kernel[k][l] / this->denominator);
+                        b_sum += img->getPixel(i + k - 1, j + l - 1).getB() * (this->kernel[k][l] / this->denominator);
                     }
                 }
             }
-            if (r_sum > this->color) {
-                r_sum = this->color;
+            if (r_sum > img->getColor()) {
+                r_sum = img->getColor();
             }
-            if (g_sum > this->color) {
-                g_sum = this->color;
+            if (g_sum > img->getColor()) {
+                g_sum = img->getColor();
             }
-            if (b_sum > this->color) {
-                b_sum = this->color;
+            if (b_sum > img->getColor()) {
+                b_sum = img->getColor();
             }
             PixelRGB p = PixelRGB((int)r_sum, (int)g_sum, (int)b_sum);
             img_processed.push_back(p);

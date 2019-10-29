@@ -6,14 +6,18 @@ PPMHandler::~PPMHandler() {
 
 PPMHandler::PPMHandler(std::string fn) {
     this->fileName = fn;
-    this->magicNumber = "NN";
+    /*this->magicNumber = "NN";
     this->width = 0;
     this->height = 0;
     this->color = 0;
-    this->image = new ImageTemplate<PixelRGB>;
+    this->image = new ImageTemplate<PixelRGB>;*/
 }
 
 bool PPMHandler::readFile() {
+    std::string magicNumber;
+    int width = 0;
+    int height = 0;
+    int color = 0;
     std::ifstream ifs;
     ifs.open(this->fileName);
     while (ifs.good()) {
@@ -23,9 +27,9 @@ bool PPMHandler::readFile() {
         std::string line;
         char p;
 
-        ifs >> this->magicNumber;
+        ifs >> magicNumber;
 
-        while (this->color == 0 && i < 3) {
+        while (color == 0 && i < 3) {
             ifs >> p;
             if (p == '#') {
                 std::getline(ifs, line);
@@ -33,19 +37,22 @@ bool PPMHandler::readFile() {
                 ifs.putback(p);
                 ifs >> j;
                 if (i == 0) {
-                    this->width = j;
+                    width = j;
                 } else if (i == 1) {
-                    this->height = j;
+                    height = j;
                 } else if (i == 2) {
-                    this->color = j;
+                    color = j;
                 }
                 i++;
             }
         }
+
+        this->image = new ImageTemplate<PixelRGB>(magicNumber, width, height, color);
+
         // Read pixel data
         ifs.ignore(256, '\n');
 
-        if (this->magicNumber == "P3") {
+        if (magicNumber == "P3") {
             int rr, gg, bb;
             while (ifs >> rr >> gg >> bb) {
                 this->image->addPixel(PixelRGB(rr, gg, bb));
@@ -53,9 +60,9 @@ bool PPMHandler::readFile() {
             ifs.close();
             return true;
 
-        } else if (this->magicNumber == "P6") {
+        } else if (magicNumber == "P6") {
             char c, rr, gg, bb;
-            for (int i = 0; i < (this->width * this->height); i++) {
+            for (int i = 0; i < (width * height); i++) {
                 ifs.read(&c, 1);
                 rr = c;
                 ifs.read(&c, 1);
@@ -77,12 +84,12 @@ bool PPMHandler::readFile() {
 void PPMHandler::saveFile() {
     std::ofstream ofs;
 
-    if (this->magicNumber == "P3") {
+    if (this->image->getMagicNumber() == "P3") {
         ofs.open(this->fileName, std::ofstream::out);
 
-        ofs << this->magicNumber << std::endl;
-        ofs << this->width << " " << this->height << std::endl;
-        ofs << this->color << std::endl;
+        ofs << this->image->getMagicNumber() << std::endl;
+        ofs << this->image->getWidth() << " " << this->image->getHeight() << std::endl;
+        ofs << this->image->getColor() << std::endl;
 
         for (auto itr : this->image->getImageData()) {
             ofs << (int)itr.getR() << " " << (int)itr.getG() << " " << (int)itr.getB() << std::endl;
@@ -90,12 +97,12 @@ void PPMHandler::saveFile() {
         ofs.close();
     }
 
-    else if (this->magicNumber == "P6") {
+    else if (this->image->getMagicNumber() == "P6") {
         ofs.open(this->fileName, std::ios::binary);
 
-        ofs << this->magicNumber << std::endl;
-        ofs << this->width << " " << this->height << std::endl;
-        ofs << this->color << std::endl;
+        ofs << this->image->getMagicNumber() << std::endl;
+        ofs << this->image->getWidth() << " " << this->image->getHeight() << std::endl;
+        ofs << this->image->getColor() << std::endl;
 
         for (auto itr : this->image->getImageData()) {
             ofs << itr.getR() << itr.getG() << itr.getB();
@@ -108,6 +115,7 @@ void PPMHandler::saveFile() {
 }
 
 void PPMHandler::applyFilter(int code) {
-    auto filter = KernelImageProcessing(this->width, this->height, this->color);
+    auto filter = KernelImageProcessing();
+    // auto filter = KernelImageProcessing(this->image->getWidth(), this->image->getHeight(), this->image->getColor());
     this->image->setImageData(filter.convolution_process(code, this->image));
 }

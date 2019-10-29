@@ -29,7 +29,6 @@ public:
                                {0,1,0},
                                {0,0,0}};
 
-    explicit KernelImageProcessing(int w, int h, int c);
     std::vector<PixelGray> convolution_process(int filterCode, ImageTemplate<PixelGray>* img);
     std::vector<PixelRGB> convolution_process(int filterCode, ImageTemplate<PixelRGB>* img);
 
@@ -39,7 +38,6 @@ protected:
 private:
     double kernel[3][3]{};
     double denominator{};
-    int width, height, color;
 };
 
 #endif //KERNEL_IMAGE_PROCESSING_KERNELIMAGEPROCESSING_H
