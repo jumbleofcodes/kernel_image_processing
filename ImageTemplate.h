@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <string>
-// #include <exception>
+#include <exception>
 
 template<typename T>
 class ImageTemplate {
@@ -29,26 +29,20 @@ public:
         this->imageData.push_back(p);
     }
 
-    T getPixel(int pos) noexcept(false) {
-        if ((pos >= this->getWidth() * this->getHeight()) || pos < 0) {
-            throw "Index out of range!";
-        }
+    T getPixel(int pos) {
         return this->imageData[pos];
     }
 
     T getPixel(int x, int y) {
-        return this->getPixel(x * this->width + y);
+        return this->imageData[x * this->width + y];
     }
 
-    void setPixel(int pos, T p) noexcept(false) {
-        if ((pos >= this->getWidth() * this->getHeight()) || pos < 0) {
-            throw "Index out of range!";
-        }
+    void setPixel(int pos, T p) {
         this->imageData[pos] = p;
     }
 
     void setPixel(int x, int y, T p) {
-        this->setPixel(x * this->width + y, p);
+        this->imageData[x * this->width + y] = p;
     }
 
     const std::string &getMagicNumber() const {
