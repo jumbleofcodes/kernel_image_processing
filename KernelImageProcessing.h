@@ -5,6 +5,7 @@
 #include "ImageTemplate.h"
 #include "PixelRGB.h"
 #include "PixelGray.h"
+#include <iostream>
 
 enum class Filtro {
     Identity, Emboss, Sharpen, Outline, BoxBlur, GaussianBlur
