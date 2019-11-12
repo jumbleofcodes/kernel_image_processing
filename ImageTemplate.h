@@ -3,7 +3,6 @@
 
 #include <vector>
 #include <string>
-#include <exception>
 
 template<typename T>
 class ImageTemplate {
