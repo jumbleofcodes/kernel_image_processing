@@ -1,9 +1,9 @@
 #include "PixelRGB.h"
 
 PixelRGB::PixelRGB(char rr, char gg, char bb) {
-    this->r = (unsigned char)rr;
-    this->g = (unsigned char)gg;
-    this->b = (unsigned char)bb;
+    this->r = (unsigned char) rr;
+    this->g = (unsigned char) gg;
+    this->b = (unsigned char) bb;
 }
 
 PixelRGB::PixelRGB(int rr, int gg, int bb) {
@@ -12,19 +12,19 @@ PixelRGB::PixelRGB(int rr, int gg, int bb) {
     } else if (rr > 255) {
         rr = 255;
     }
-    this->r = (unsigned char)rr;
+    this->r = (unsigned char) rr;
     if (gg < 0) {
         gg = 0;
     } else if (gg > 255) {
         gg = 255;
     }
-    this->g = (unsigned char)gg;
+    this->g = (unsigned char) gg;
     if (bb < 0) {
         bb = 0;
     } else if (bb > 255) {
         bb = 255;
     }
-    this->b = (unsigned char)bb;
+    this->b = (unsigned char) bb;
 }
 
 unsigned char PixelRGB::getR() const {

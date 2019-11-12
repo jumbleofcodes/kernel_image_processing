@@ -10,22 +10,18 @@
 #include <string>
 #include <iostream>
 
-class PPMHandler: public ImageHandler {
+class PPMHandler : public ImageHandler {
 public:
     explicit PPMHandler(std::string fn);
     bool readFile() override;
     void saveFile() override;
     ~PPMHandler() override;
-
-    void applyFilter(Filtro code) override ;
+    void applyFilter(Filtro code) override;
 
 private:
     std::string fileName;
-    // std::string magicNumber;
-    // int width, height, color;
-    ImageTemplate<PixelRGB>* image{};
+    ImageTemplate<PixelRGB> *image{};
 };
-
 
 
 #endif //KERNEL_IMAGE_PROCESSING_PPMHANDLER_H

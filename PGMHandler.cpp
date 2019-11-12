@@ -6,11 +6,6 @@ PGMHandler::~PGMHandler() {
 
 PGMHandler::PGMHandler(std::string fn) {
     this->fileName = fn;
-    /*this->magicNumber = "NN";
-    this->width = 0;
-    this->height = 0;
-    this->color = 0;
-    this->image = new ImageTemplate<PixelGray>;*/
 }
 
 bool PGMHandler::readFile() {
@@ -21,7 +16,6 @@ bool PGMHandler::readFile() {
     std::ifstream ifs;
     ifs.open(this->fileName);
     while (ifs.good()) {
-        // Read header data
         int i = 0;
         int j;
         std::string line;
@@ -49,10 +43,9 @@ bool PGMHandler::readFile() {
 
         this->image = new ImageTemplate<PixelGray>(magicNumber, width, height, color);
 
-        // Read pixel data
         ifs.ignore(256, '\n');
 
-        if(magicNumber == "P2") {
+        if (magicNumber == "P2") {
             int gg;
             while (ifs >> gg) {
                 this->image->addPixel(PixelGray(gg));
@@ -85,12 +78,10 @@ void PGMHandler::saveFile() {
         ofs << this->image->getColor() << std::endl;
 
         for (auto itr : this->image->getImageData()) {
-            ofs << (int)itr.getG() << std::endl;
+            ofs << (int) itr.getG() << std::endl;
         }
         ofs.close();
-    }
-
-    else if (this->image->getMagicNumber() == "P5") {
+    } else if (this->image->getMagicNumber() == "P5") {
         ofs.open(this->fileName, std::ios::binary);
 
         ofs << this->image->getMagicNumber() << std::endl;
@@ -109,6 +100,5 @@ void PGMHandler::saveFile() {
 
 void PGMHandler::applyFilter(Filtro code) {
     auto filter = KernelImageProcessing();
-    // auto filter = KernelImageProcessing(this->image->getWidth(), this->image->getHeight(), this->image->getColor());
     this->image->setImageData(filter.convolution_process(code, this->image));
 }

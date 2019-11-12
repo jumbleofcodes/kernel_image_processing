@@ -1,7 +1,7 @@
 #include "PixelGray.h"
 
 PixelGray::PixelGray(char gg) {
-    this->g = (unsigned char)gg;
+    this->g = (unsigned char) gg;
 }
 
 PixelGray::PixelGray(int gg) {
@@ -10,7 +10,7 @@ PixelGray::PixelGray(int gg) {
     } else if (gg > 255) {
         gg = 255;
     }
-    this->g = (unsigned char)gg;
+    this->g = (unsigned char) gg;
 }
 
 unsigned char PixelGray::getG() const {

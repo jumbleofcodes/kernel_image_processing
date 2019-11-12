@@ -6,11 +6,6 @@ PPMHandler::~PPMHandler() {
 
 PPMHandler::PPMHandler(std::string fn) {
     this->fileName = fn;
-    /*this->magicNumber = "NN";
-    this->width = 0;
-    this->height = 0;
-    this->color = 0;
-    this->image = new ImageTemplate<PixelRGB>;*/
 }
 
 bool PPMHandler::readFile() {
@@ -21,7 +16,6 @@ bool PPMHandler::readFile() {
     std::ifstream ifs;
     ifs.open(this->fileName);
     while (ifs.good()) {
-        // Read header data
         int i = 0;
         int j;
         std::string line;
@@ -49,7 +43,6 @@ bool PPMHandler::readFile() {
 
         this->image = new ImageTemplate<PixelRGB>(magicNumber, width, height, color);
 
-        // Read pixel data
         ifs.ignore(256, '\n');
 
         if (magicNumber == "P3") {
@@ -92,12 +85,10 @@ void PPMHandler::saveFile() {
         ofs << this->image->getColor() << std::endl;
 
         for (auto itr : this->image->getImageData()) {
-            ofs << (int)itr.getR() << " " << (int)itr.getG() << " " << (int)itr.getB() << std::endl;
+            ofs << (int) itr.getR() << " " << (int) itr.getG() << " " << (int) itr.getB() << std::endl;
         }
         ofs.close();
-    }
-
-    else if (this->image->getMagicNumber() == "P6") {
+    } else if (this->image->getMagicNumber() == "P6") {
         ofs.open(this->fileName, std::ios::binary);
 
         ofs << this->image->getMagicNumber() << std::endl;
@@ -116,6 +107,5 @@ void PPMHandler::saveFile() {
 
 void PPMHandler::applyFilter(Filtro code) {
     auto filter = KernelImageProcessing();
-    // auto filter = KernelImageProcessing(this->image->getWidth(), this->image->getHeight(), this->image->getColor());
     this->image->setImageData(filter.convolution_process(code, this->image));
 }

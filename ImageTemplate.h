@@ -8,7 +8,7 @@ template<typename T>
 class ImageTemplate {
 public:
 
-    ImageTemplate(const std::string& mn, int w, int h, int c) {
+    ImageTemplate(const std::string &mn, int w, int h, int c) {
         this->magicNumber = mn;
         this->width = w;
         this->height = h;

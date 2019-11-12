@@ -6,7 +6,6 @@ class PixelGray {
 public:
     explicit PixelGray(char gg);
     explicit PixelGray(int gg);
-
     unsigned char getG() const;
 
 private:

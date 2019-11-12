@@ -6,11 +6,8 @@ class PixelRGB {
 public:
     PixelRGB(char rr, char gg, char bb);
     PixelRGB(int rr, int gg, int bb);
-
     unsigned char getR() const;
-
     unsigned char getG() const;
-
     unsigned char getB() const;
 
 private:

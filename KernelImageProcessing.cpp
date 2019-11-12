@@ -4,7 +4,7 @@
 void KernelImageProcessing::selectFilter(Filtro fc) {
     switch (fc) {
 
-        case Filtro ::Emboss:
+        case Filtro::Emboss:
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
                     this->kernel[i][j] = k_emboss[i][j];
@@ -40,7 +40,7 @@ void KernelImageProcessing::selectFilter(Filtro fc) {
             this->denominator = 9;
             break;
 
-        case Filtro ::GaussianBlur:
+        case Filtro::GaussianBlur:
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
                     this->kernel[i][j] = k_gaussian_blur[i][j];
@@ -60,7 +60,7 @@ void KernelImageProcessing::selectFilter(Filtro fc) {
     }
 }
 
-std::vector<PixelGray> KernelImageProcessing::convolution_process(Filtro filterCode, ImageTemplate<PixelGray>* img) {
+std::vector<PixelGray> KernelImageProcessing::convolution_process(Filtro filterCode, ImageTemplate<PixelGray> *img) {
     this->selectFilter(filterCode);
 
     std::vector<PixelGray> img_processed;
@@ -78,14 +78,14 @@ std::vector<PixelGray> KernelImageProcessing::convolution_process(Filtro filterC
             if (sum > img->getColor()) {
                 sum = img->getColor();
             }
-            PixelGray p = PixelGray((int)(sum));
+            PixelGray p = PixelGray((int) (sum));
             img_processed.push_back(p);
         }
     }
     return img_processed;
 }
 
-std::vector<PixelRGB> KernelImageProcessing::convolution_process(Filtro filterCode, ImageTemplate<PixelRGB>* img) {
+std::vector<PixelRGB> KernelImageProcessing::convolution_process(Filtro filterCode, ImageTemplate<PixelRGB> *img) {
     this->selectFilter(filterCode);
 
     std::vector<PixelRGB> img_processed;
@@ -113,7 +113,7 @@ std::vector<PixelRGB> KernelImageProcessing::convolution_process(Filtro filterCo
             if (b_sum > img->getColor()) {
                 b_sum = img->getColor();
             }
-            PixelRGB p = PixelRGB((int)r_sum, (int)g_sum, (int)b_sum);
+            PixelRGB p = PixelRGB((int) r_sum, (int) g_sum, (int) b_sum);
             img_processed.push_back(p);
         }
     }

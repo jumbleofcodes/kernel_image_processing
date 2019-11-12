@@ -10,20 +10,17 @@
 #include <string>
 #include <iostream>
 
-class PGMHandler: public ImageHandler {
+class PGMHandler : public ImageHandler {
 public:
     explicit PGMHandler(std::string fn);
     bool readFile() override;
     void saveFile() override;
     ~PGMHandler() override;
-
-    void applyFilter(Filtro code) override ;
+    void applyFilter(Filtro code) override;
 
 private:
     std::string fileName;
-    // std::string magicNumber;
-    // int width, height, color;
-    ImageTemplate<PixelGray>* image{};
+    ImageTemplate<PixelGray> *image{};
 };
 
 

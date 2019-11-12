@@ -4,7 +4,7 @@
 #include <iostream>
 
 int main() {
-    ImageHandler* imageHandler;
+    ImageHandler *imageHandler;
     std::string dir = "../images/";
     std::string fileName;
     std::string imageType;
@@ -51,10 +51,10 @@ int main() {
                 f = Filtro::Emboss;
                 break;
             case 2:
-                f = Filtro ::Sharpen;
+                f = Filtro::Sharpen;
                 break;
             case 3:
-                f = Filtro ::Outline;
+                f = Filtro::Outline;
                 break;
             case 4:
                 f = Filtro::BoxBlur;
@@ -62,11 +62,10 @@ int main() {
             case 5:
                 f = Filtro::GaussianBlur;
                 break;
-            default: // codice invalido
+            default:
                 break;
         }
 
-        // if (filterCode > 0 && filterCode < filterList.size() + 1) {
         if (f != Filtro::Identity) {
             imageHandler->applyFilter(f);
             std::cout << "Do you want to save the new filtered image? (YES/NO)" << std::endl;
