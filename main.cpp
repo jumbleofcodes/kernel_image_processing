@@ -77,6 +77,8 @@ int main() {
         } else {
             std::cerr << "Invalid filter code!" << std::endl;
         }
+    } else {
+        std::cerr << "File not found!" << std::endl;
     }
     std::cout << "Operation concluded!" << std::endl;
 
