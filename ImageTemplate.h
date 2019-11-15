@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include <exception>
 
 template<typename T>
 class ImageTemplate {
@@ -30,7 +31,7 @@ public:
 
     T getPixel(int pos) noexcept(false) {
         if ((pos >= this->getWidth() * this->getHeight()) || pos < 0) {
-            throw "Index out of range!";
+            throw std::out_of_range("Index out of range!");
         }
         return this->imageData[pos];
     }
@@ -41,7 +42,7 @@ public:
 
     void setPixel(int pos, T p) noexcept(false) {
         if ((pos >= this->getWidth() * this->getHeight()) || pos < 0) {
-            throw "Index out of range!";
+            throw std::out_of_range("Index out of range!");
         }
         this->imageData[pos] = p;
     }

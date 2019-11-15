@@ -23,26 +23,28 @@ protected:
 
 
 TEST_F(ExceptionTestSuite, NegativeGetPositionTest) {
-    EXPECT_ANY_THROW(this->grayImage->getPixel(-1););
-    EXPECT_ANY_THROW(this->grayImage->getPixel(-1, 0););
+    EXPECT_THROW(this->grayImage->getPixel(-1), std::out_of_range);
+    EXPECT_THROW(this->grayImage->getPixel(-1, 0), std::out_of_range);
 }
 
 TEST_F(ExceptionTestSuite, GetIndexOutOfBoundTest) {
-    EXPECT_ANY_THROW(this->grayImage->getPixel(this->grayImage->getWidth(), this->grayImage->getHeight()););
+    EXPECT_THROW(this->grayImage->getPixel(this->grayImage->getWidth(), this->grayImage->getHeight()),
+                 std::out_of_range);
 }
 
 TEST_F(ExceptionTestSuite, NoGetExceptionTest) {
-    EXPECT_NO_THROW(this->grayImage->getPixel(this->grayImage->getWidth() * this->grayImage->getHeight() -1));
+    EXPECT_NO_THROW(this->grayImage->getPixel(this->grayImage->getWidth() * this->grayImage->getHeight() - 1));
 }
 
 TEST_F(ExceptionTestSuite, NegativeSetPositionTest) {
     PixelGray p = PixelGray(0);
-    EXPECT_ANY_THROW(this->grayImage->setPixel(-1, p););
+    EXPECT_THROW(this->grayImage->setPixel(-1, p), std::out_of_range);
 }
 
 TEST_F(ExceptionTestSuite, SetIndexOutOfBoundTest) {
     PixelGray p = PixelGray(0);
-    EXPECT_ANY_THROW(this->grayImage->setPixel(this->grayImage->getWidth() * this->grayImage->getHeight(), p););
+    EXPECT_THROW(this->grayImage->setPixel(this->grayImage->getWidth() * this->grayImage->getHeight(), p),
+                 std::out_of_range);
 }
 
 TEST_F(ExceptionTestSuite, NoSetExceptionTest) {
